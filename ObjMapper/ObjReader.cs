@@ -9,6 +9,8 @@ public partial class ObjReader
     private string Path { get; }
     private readonly Dictionary<string, float[]> _materials = new();
     private readonly List<ObjModel> _models = new();
+    private int _vtxCount;
+    private int _fcCount;
 
     public ObjReader(string path)
     {
@@ -17,6 +19,7 @@ public partial class ObjReader
 
     public void ParseObj()
     {
+        var watch = System.Diagnostics.Stopwatch.StartNew();
         try
         {
             ParseMtl();
@@ -24,6 +27,7 @@ public partial class ObjReader
             using var sr = new StreamReader(fs);
             ObjModel? model = null;
 
+            Console.WriteLine("==========[ Searching for objects ]==========");
             while (sr.ReadLine() is { } currentLine)
             {
                 if (currentLine.StartsWith("o "))
@@ -32,7 +36,7 @@ public partial class ObjReader
                     {
                         Name = currentLine.Replace("o ", string.Empty).Trim()
                     };
-                    Console.WriteLine($">==== New Object found: {model.Name}");
+                    Console.WriteLine($">====== Object found: {model.Name}");
                     _models.Add(model);
                 }
 
@@ -41,16 +45,18 @@ public partial class ObjReader
                 {
                     var numbers = VertexRegex().Matches(currentLine).Select(c => c.Value);
                     model.VertexList.AddRange(numbers.Select(float.Parse));
+                    _vtxCount++;
                 }
                 else if (currentLine.StartsWith("f "))
                 {
                     var faces = NumberRegex().Matches(currentLine).Select(c => int.Parse(c.Value) - 1);
                     model.Faces.AddRange(faces);
+                    _fcCount++;
                 }
                 else if (currentLine.StartsWith("usemtl"))
                 {
                     var materialString = WordRegex().Matches(currentLine).LastOrDefault()!.Value;
-                    Console.Write($">==== Material required: {materialString} ");
+                    Console.Write($"\t==> Material required: {materialString} ");
                     var mat = _materials[materialString];
                     Console.WriteLine($"({mat[0]}, {mat[1]}, {mat[2]})");
                     model.Color = _materials[materialString];
@@ -64,9 +70,18 @@ public partial class ObjReader
             modelVertex.ToList().ForEach(v => swVertex.Write(v));
             using StreamWriter swFaces = new("faces.txt");
             modelFaces.ToList().ForEach(f => swFaces.Write(f));
+
+            watch.Stop();
+            Console.WriteLine("=======[ Export info ]=======");
+            Console.WriteLine($"\t{_vtxCount} Vertex.");
+            Console.WriteLine($"\t{_fcCount} Faces.");
+            Console.WriteLine($"\t{_models.Count} Objects.");
+            Console.WriteLine($"\t{_materials.Count} Materials.");
+            Console.WriteLine($"Time taken: {watch.Elapsed}.");
         }
         catch (Exception e)
         {
+            watch.Stop();
             Console.WriteLine(e);
             throw;
         }
@@ -83,6 +98,7 @@ public partial class ObjReader
 
         try
         {
+            Console.WriteLine("==========[ Searching for materials ]==========");
             using var fs = new FileStream(mtlPath, FileMode.Open, FileAccess.Read);
             using var sr = new StreamReader(fs);
 
@@ -102,7 +118,7 @@ public partial class ObjReader
 
             foreach (var mat in _materials)
             {
-                Console.Write($"Material found: {mat.Key} ");
+                Console.Write($">====== Material found: {mat.Key} ");
                 Console.WriteLine($"({mat.Value[0]}, {mat.Value[1]}, {mat.Value[2]})");
             }
         }
