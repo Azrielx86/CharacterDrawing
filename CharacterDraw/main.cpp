@@ -66,11 +66,9 @@ int main()
 	// Loop mientras no se cierra la ventana
 	while (!mainWindow.getShouldClose())
 	{
-		// Recibir eventos del usuario
 		glfwPollEvents();
-		// Limpiar la ventana
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Se agrega limpiar el buffer de profundidad
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		shaderList[0].useShader();
 		
 		characterMesh->RenderMeshColor();
