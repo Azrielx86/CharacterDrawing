@@ -8,17 +8,18 @@ public class ObjModel
     public List<float> VertexList { get; set; } = new();
     public List<int> Faces { get; set; } = new();
     public float[] Color { get; set; } = { 0.0f, 0.0f, 0.0f };
+    public string Separator { get; set; } = " ";
 
     public string MapVertexWithColor()
     {
         StringBuilder sb = new();
-        var color = string.Join(" ", Color);
+        var color = string.Join(Separator, Color);
         VertexList.Chunk(3)
             .ToList()
             .ForEach(c =>
             {
-                sb.Append(string.Join(" ", c))
-                    .Append(' ')
+                sb.Append(string.Join(Separator, c))
+                    .Append(Separator)
                     .Append(color)
                     .Append('\n');
             });
@@ -29,12 +30,11 @@ public class ObjModel
     public string MapVertex()
     {
         StringBuilder sb = new();
-        var color = string.Join(" ", Color);
         VertexList.Chunk(3)
             .ToList()
             .ForEach(c =>
             {
-                sb.Append(string.Join(" ", c))
+                sb.Append(string.Join(Separator, c))
                     .Append('\n');
             });
 
@@ -48,7 +48,7 @@ public class ObjModel
             .ToList()
             .ForEach(f =>
             {
-                sb.Append(string.Join(" ", f))
+                sb.Append(string.Join(Separator, f))
                     .Append('\n');
             });
         return sb.ToString();

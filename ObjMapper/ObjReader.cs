@@ -12,7 +12,9 @@ public partial class ObjReader
     private int _vtxCount;
     private int _fcCount;
 
-    public bool ExportMaterials { get; set; } = true;
+    public bool ExportMaterials { get; init; } = true;
+    public string OutputDir { get; set; } = ".";
+    public string Separator { get; set; } = " ";
 
     public ObjReader(string path)
     {
@@ -37,7 +39,8 @@ public partial class ObjReader
                 {
                     model = new ObjModel
                     {
-                        Name = currentLine.Replace("o ", string.Empty).Trim()
+                        Name = currentLine.Replace("o ", string.Empty).Trim(),
+                        Separator = Separator
                     };
                     Console.WriteLine($">====== Object found: {model.Name}");
                     _models.Add(model);
@@ -70,9 +73,10 @@ public partial class ObjReader
             var modelVertex = _models.Select(m => ExportMaterials ? m.MapVertexWithColor() : m.MapVertex());
             var modelFaces = _models.Select(m => m.MapFaces());
 
-            using StreamWriter swVertex = new("vertex.txt");
+            // using StreamWriter swVertex = new("vertex.txt");
+            using StreamWriter swVertex = new(System.IO.Path.Combine(OutputDir, "vertex.txt"));
             modelVertex.ToList().ForEach(v => swVertex.Write(v));
-            using StreamWriter swFaces = new("faces.txt");
+            using StreamWriter swFaces = new(System.IO.Path.Combine(OutputDir, "faces.txt"));
             modelFaces.ToList().ForEach(f => swFaces.Write(f));
 
             watch.Stop();
