@@ -12,6 +12,8 @@ public partial class ObjReader
     private int _vtxCount;
     private int _fcCount;
 
+    public bool ExportMaterials { get; set; } = true;
+
     public ObjReader(string path)
     {
         Path = path;
@@ -22,7 +24,8 @@ public partial class ObjReader
         var watch = System.Diagnostics.Stopwatch.StartNew();
         try
         {
-            ParseMtl();
+            if (ExportMaterials)
+                ParseMtl();
             using var fs = new FileStream(Path, FileMode.Open, FileAccess.Read);
             using var sr = new StreamReader(fs);
             ObjModel? model = null;
@@ -55,6 +58,7 @@ public partial class ObjReader
                 }
                 else if (currentLine.StartsWith("usemtl"))
                 {
+                    if (!ExportMaterials) continue;
                     var materialString = WordRegex().Matches(currentLine).LastOrDefault()!.Value;
                     Console.Write($"\t==> Material required: {materialString} ");
                     var mat = _materials[materialString];
@@ -63,7 +67,7 @@ public partial class ObjReader
                 }
             }
 
-            var modelVertex = _models.Select(m => m.MapVertex());
+            var modelVertex = _models.Select(m => ExportMaterials ? m.MapVertexWithColor() : m.MapVertex());
             var modelFaces = _models.Select(m => m.MapFaces());
 
             using StreamWriter swVertex = new("vertex.txt");

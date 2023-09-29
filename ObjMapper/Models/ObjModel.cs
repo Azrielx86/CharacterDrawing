@@ -9,7 +9,7 @@ public class ObjModel
     public List<int> Faces { get; set; } = new();
     public float[] Color { get; set; } = { 0.0f, 0.0f, 0.0f };
 
-    public string MapVertex()
+    public string MapVertexWithColor()
     {
         StringBuilder sb = new();
         var color = string.Join(" ", Color);
@@ -20,6 +20,21 @@ public class ObjModel
                 sb.Append(string.Join(" ", c))
                     .Append(' ')
                     .Append(color)
+                    .Append('\n');
+            });
+
+        return sb.ToString();
+    }
+    
+    public string MapVertex()
+    {
+        StringBuilder sb = new();
+        var color = string.Join(" ", Color);
+        VertexList.Chunk(3)
+            .ToList()
+            .ForEach(c =>
+            {
+                sb.Append(string.Join(" ", c))
                     .Append('\n');
             });
 
