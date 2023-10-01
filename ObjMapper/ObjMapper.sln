@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjMapper.Cli", "ObjMapper.Cli\ObjMapper.Cli.csproj", "{1DF7E226-68A4-4DC8-B81A-9D0B35F35FF2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjMapper.UI", "ObjMapper.UI\ObjMapper.UI.csproj", "{079F0950-DF1F-4B6F-905B-2FC04C764D3F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjMapper", "ObjMapper\ObjMapper.csproj", "{54A0C1CF-397D-451A-B073-A39BBEE18521}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1DF7E226-68A4-4DC8-B81A-9D0B35F35FF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DF7E226-68A4-4DC8-B81A-9D0B35F35FF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DF7E226-68A4-4DC8-B81A-9D0B35F35FF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DF7E226-68A4-4DC8-B81A-9D0B35F35FF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{079F0950-DF1F-4B6F-905B-2FC04C764D3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{079F0950-DF1F-4B6F-905B-2FC04C764D3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{079F0950-DF1F-4B6F-905B-2FC04C764D3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{079F0950-DF1F-4B6F-905B-2FC04C764D3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54A0C1CF-397D-451A-B073-A39BBEE18521}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54A0C1CF-397D-451A-B073-A39BBEE18521}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54A0C1CF-397D-451A-B073-A39BBEE18521}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54A0C1CF-397D-451A-B073-A39BBEE18521}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
